@@ -8,8 +8,8 @@ import {
 } from "@react-navigation/drawer";
 import { Icon } from "react-native-elements";
 
-import Home from "./HomeComponent";
 import Menu from "./MenuComponent";
+import Home from "./HomeComponent";
 import Dishdetail from "./DishdetailComponent";
 import Contact from "./ContactComponent";
 import About from "./AboutComponent";
@@ -28,18 +28,23 @@ const HeaderOptions = {
 
 const CustomDrawerContentComponent = (props) => (
   <ScrollView>
-    <View style={styles.drawerHeader}>
-      <View style={{ flex: 1 }}>
-        <Image
-          source={require("./images/logo.png")}
-          style={styles.drawerImage}
-        />
+    <SafeAreaView
+      style={styles.container}
+      forceInset={{ top: "always", horizontal: "never" }}
+    >
+      <View style={styles.drawerHeader}>
+        <View style={{ flex: 1 }}>
+          <Image
+            source={require("./images/logo.png")}
+            style={styles.drawerImage}
+          />
+        </View>
+        <View style={{ flex: 2 }}>
+          <Text style={styles.drawerHeaderText}>Ristorante Con Fusion</Text>
+        </View>
       </View>
-      <View style={{ flex: 2 }}>
-        <Text style={styles.drawerHeaderText}>Ristorante Con Fusion</Text>
-      </View>
-    </View>
-    <DrawerItemList {...props} />
+      <DrawerItems {...props} />
+    </SafeAreaView>
   </ScrollView>
 );
 
@@ -98,6 +103,32 @@ function HomeNavigatorScreen() {
   );
 }
 
+const ContactNavigator = createStackNavigator();
+
+function ContactNavigatorScreen() {
+  return (
+    <ContactNavigator.Navigator
+      initialRouteName="Contact Us"
+      screenOptions={HeaderOptions}
+    >
+      <ContactNavigator.Screen
+        name="Contact Us"
+        component={Contact}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <Icon
+              name="menu"
+              size={24}
+              color="white"
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+        })}
+      />
+    </ContactNavigator.Navigator>
+  );
+}
+
 const AboutNavigator = createStackNavigator();
 
 const MenuIcon = (props) => {
@@ -128,32 +159,6 @@ function AboutNavigatorScreen() {
   );
 }
 
-const ContactNavigator = createStackNavigator();
-
-function ContactNavigatorScreen() {
-  return (
-    <ContactNavigator.Navigator
-      initialRouteName="Contact Us"
-      screenOptions={HeaderOptions}
-    >
-      <ContactNavigator.Screen
-        name="Contact Us"
-        component={Contact}
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <Icon
-              name="menu"
-              size={24}
-              color="white"
-              onPress={() => navigation.toggleDrawer()}
-            />
-          ),
-        })}
-      />
-    </ContactNavigator.Navigator>
-  );
-}
-
 const MainNavigator = createDrawerNavigator();
 
 function MainNavigatorDrawer() {
@@ -163,7 +168,6 @@ function MainNavigatorDrawer() {
       drawerStyle={{
         backgroundColor: "#D1C4E9",
       }}
-      drawerContent={(props) => <CustomDrawerContentComponent {...props} />}
     >
       <MainNavigator.Screen
         name="Home"
@@ -248,5 +252,4 @@ const styles = StyleSheet.create({
     height: 60,
   },
 });
-
 export default Main;
