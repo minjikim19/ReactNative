@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, FlatList, View, ScrollView, SafeAreaView } from "react-native";
+import { Text, FlatList, ScrollView } from "react-native";
 import { Card, ListItem } from "react-native-elements";
 import { LEADERS } from "../shared/leaders";
 import { connect } from "react-redux";
