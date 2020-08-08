@@ -14,3 +14,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+/* C:\json-server>json-server --watch db.json -p 3001 -H 172.30.1.49 */
