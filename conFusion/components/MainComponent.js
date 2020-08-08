@@ -183,7 +183,7 @@ function AboutNavigatorScreen() {
   );
 }
 
-const ReservationNavigator = createDrawerNavigator();
+const ReservationNavigator = createStackNavigator();
 
 function ReservationNavigatorScreen() {
   return (
