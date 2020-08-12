@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useRef } from "react";
 import {
   Text,
   View,
@@ -68,7 +68,7 @@ function RenderComments(props) {
 
 function RenderDish(props) {
   const dish = props.dish;
-
+  const viewRef = useRef(null);
   const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
     if (dx < -200) return true;
     else return false;
@@ -77,6 +77,9 @@ function RenderDish(props) {
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: (e, gestureState) => {
       return true;
+    },
+    onPanResponderGrant: () => {
+      viewRef.current.rubberBand(1000);
     },
     onPanResponderEnd: (e, gestureState) => {
       console.log("pan responder end", gestureState);
@@ -110,9 +113,10 @@ function RenderDish(props) {
     return (
       <Animatable.View
         animation="fadeInDown"
-        duration={2000}
+        duration={1000}
         delay={1000}
         {...panResponder.panHandlers}
+        ref={viewRef}
       >
         <Card featuredTitle={dish.name} image={{ uri: baseUrl + dish.image }}>
           <Text style={{ margin: 10 }}>{dish.description}</Text>
