@@ -4,6 +4,9 @@ import { Input, CheckBox, Button, Icon } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
+import * as ImageManipulator from "expo-image-manipulator";
+import { Camera } from "expo-camera";
+import { Asset } from "expo-asset";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { baseUrl } from "../shared/baseUrl";
@@ -153,9 +156,19 @@ class RegisterTab extends Component {
       });
       if (!capturedImage.cancelled) {
         console.log(capturedImage);
-        this.setState({ imageUrl: capturedImage.uri });
+        this.processImage(capturedImage.uri);
       }
     }
+  };
+
+  processImage = async (imageUri) => {
+    let processedImage = await ImageManipulator.manipulateAsync(
+      imageUri,
+      [{ resize: { width: 600 } }],
+      { format: "png" }
+    );
+    console.log(processedImage);
+    this.setState({ imageUrl: processedImage.uri });
   };
 
   static navigationOptions = {
